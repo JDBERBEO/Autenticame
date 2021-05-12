@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const router = Router()
+const isAuth = require('./isAuth')
 
 const {
     getUsers,
@@ -12,7 +13,7 @@ const {
 } = require('./controller')
 
 
-router.get('/', getUsers)
+router.get('/', isAuth, getUsers)
 router.post('/register', createUser)
 router.get('/register', getRegister)
 router.get('/login', getLogin)
