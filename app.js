@@ -5,6 +5,7 @@ const router= require('./src/Route');
 const morgan = require('morgan');
 const path = require('path')
 const hbs = require('express-handlebars')
+const session = require('express-session')
 
 //database
 require('./src/DataBase')
@@ -23,6 +24,10 @@ app.set('view engine', '.hbs')
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(session({
+    secret: 'secretWord', //palabra secreta 
+    cookie: { maxAge: 10000*60   } //tiempo que dura la sesión abieta
+  }))
 //Route and Controllers
 app.use(router)
 

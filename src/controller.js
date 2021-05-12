@@ -28,9 +28,42 @@ const getLogin = (req, res) => {
     res.render('LogInform')
 }
 
+const getUser = async (req, res) => {
+    const {email, password } = req.body
+    const user = await User.findOne({email})
+    if (user) {
+        const correctPassword = await user.passwordMatch(password)
+       
+        if(correctPassword) {
+            console.log('user exists')
+            console.log('userID: ', user._id)
+            req.session.userId = user._id
+            req.session.userEmail = user.email
+
+            res.redirect('/')
+        }
+        else {
+            console.log('user exists, wrong password written')
+            //req.flash('errorMsg', 'User or password are incorrect')
+            res.redirect('/login')   
+        }
+    }else {
+        console.log('user does not exist')
+        //req.flash('errorMsg', 'User or password are incorrect')
+        res.redirect('/login')
+    }
+}
+
+const logoutUser = (req, res) => {
+    req.session.userId = null 
+    res.redirect('/login')
+}
+
 module.exports = {
     getUsers,
     getRegister,
     createUser,
-    getLogin 
+    getLogin,
+    getUser,
+    logoutUser 
 }

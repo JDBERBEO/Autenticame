@@ -19,4 +19,11 @@ User.pre('save', function (next) {
     }
 })
 
+User.methods.passwordMatch = async function (userLoginPass) {
+    try {
+        return await bcrypt.compare(userLoginPass, this.password)
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 module.exports = model('User', User)
