@@ -25,7 +25,7 @@ const createUser = async(req, res) => {
 }
 
 const getLogin = (req, res) => {
-    res.render('LogInform')
+    res.render('LogInForm')
 }
 
 const getUser = async (req, res) => {
